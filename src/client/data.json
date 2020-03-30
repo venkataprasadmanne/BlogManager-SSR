@@ -1,0 +1,39 @@
+{
+  "articles":[{
+"title":"Node js support for es6 modules1",
+"description":"Node js supports common js modules but in latest versions it supports es6 modules as well",
+"likes":4,
+"comments":[{
+  "description":"Thanks for the great article",
+  "author":"romeo"
+  },{
+    "description":"from which version Node supports es6 modules?",
+    "author":"rrksan"
+  }]
+    },{
+  "title":"Node js support for es6 modules2",
+  "description":"Node js supports common js modules but in latest versions it supports es6 modules as well",
+  "likes":4,
+  "comments":[{
+    "description":"Thanks for the great article2",
+    "author":"romeo"
+    },{
+      "description":"from which version Node supports es6 modules?2",
+      "author":"rrksan"
+    }]
+      }],
+  "authors":[{
+      "username":"venkatap",
+      "password":"venkatap"
+
+    },{
+        "username":"romeo",
+        "password":"romeo"
+
+      },{
+          "username":"rrksan",
+          "password":"rrksan"
+
+        }]
+
+}
