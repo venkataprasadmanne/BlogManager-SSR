@@ -5,6 +5,9 @@ const { Schema } = mongoose;
 const { ObjectId } = mongoose.Types;
 
 const AuthorSchema = new Schema({
+  firstName: String,
+  lastName: String,
+  email: String,
   username: String,
   password: String,
   createdAt: { type: Date, default: Date.now }
@@ -171,14 +174,19 @@ module.exports = {
     });
   },
 
-  addUser: (username, password) => {
+  addUser: (firstName, lastName, email, username, password) => {
     return new Promise((resolve, reject) => {
-      const author = new Author({ username, password });
-      // const author = new Author({username:"venkatap",password:"venkatap"});
+      const author = new Author({
+        firstName,
+        lastName,
+        email,
+        username,
+        password
+      });
       author
         .save()
-        .then(author => {
-          resolve(author);
+        .then(savedAuthor => {
+          resolve(savedAuthor);
         })
         .catch(err => {
           reject(err);

@@ -1,13 +1,17 @@
 import React from "react";
 import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
+import { NavLink } from "react-router-dom";
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { username: "", password: "" };
   }
 
   render() {
+    const { username, password } = this.state;
+    console.log("this.state", this.state);
+    const that = this;
     return (
       <Row>
         <Col>
@@ -19,6 +23,10 @@ class SignIn extends React.Component {
                 type="text"
                 name="username"
                 id="username"
+                value={username}
+                onChange={event => {
+                  that.setState({ username: event.target.value });
+                }}
                 placeholder="username"
                 use
               />
@@ -29,12 +37,18 @@ class SignIn extends React.Component {
                 type="text"
                 name="password"
                 id="password"
+                value={password}
+                onChange={event => {
+                  that.setState({ password: event.target.value });
+                }}
                 placeholder="password"
               />
             </FormGroup>
             <Button color="info">SignIn</Button>
             <br />
           </Form>
+          <span>new user ? </span>
+          <NavLink to="/signup">SignUp</NavLink>
         </Col>
       </Row>
     );

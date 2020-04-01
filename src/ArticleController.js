@@ -50,7 +50,13 @@ module.exports = {
   },
   addUser: (req, res) => {
     repo
-      .addUser(req.body.username, req.body.password)
+      .addUser(
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.username,
+        req.body.password
+      )
       .then(savedUser => {
         res.send(savedUser);
       })
