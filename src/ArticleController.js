@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const repo = require("./persistence/repository");
 
 module.exports = {
@@ -49,13 +50,15 @@ module.exports = {
       });
   },
   addUser: (req, res) => {
+    const token = jwt.sign({ username: req.body.username }, "shhhhh");
     repo
       .addUser(
         req.body.firstName,
         req.body.lastName,
         req.body.email,
         req.body.username,
-        req.body.password
+        req.body.password,
+        token
       )
       .then(savedUser => {
         res.send(savedUser);
@@ -93,6 +96,22 @@ module.exports = {
       })
       .catch(err => {
         res.send(err);
+      });
+  },
+  loginUser: (req, res) => {
+    repo
+      .findUserByName(req.body.username)
+      .then(user => {
+        if (user.password === req.body.password) {
+          user.token = jwt.sign({ username: user.username }, "shhhhh");
+          return user.save().then(savedUser => {
+            res.send(savedUser);
+          });
+        }
+        res.sendStatus(401);
+      })
+      .catch(err => {
+        res.sendStatus(401);
       });
   },
   addComment: (req, res) => {

@@ -123,6 +123,7 @@ class SignUp extends React.Component {
                   })
                   .then(response => {
                     console.log("response", response);
+                    localStorage.setItem("token", response.data.token);
                     history.push("/");
                   })
                   .catch(err => {

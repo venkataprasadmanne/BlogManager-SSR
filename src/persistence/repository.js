@@ -10,6 +10,7 @@ const AuthorSchema = new Schema({
   email: String,
   username: String,
   password: String,
+  token: String,
   createdAt: { type: Date, default: Date.now }
 });
 const Author = mongoose.model("Author", AuthorSchema);
@@ -174,14 +175,15 @@ module.exports = {
     });
   },
 
-  addUser: (firstName, lastName, email, username, password) => {
+  addUser: (firstName, lastName, email, username, password, token) => {
     return new Promise((resolve, reject) => {
       const author = new Author({
         firstName,
         lastName,
         email,
         username,
-        password
+        password,
+        token
       });
       author
         .save()
@@ -227,6 +229,17 @@ module.exports = {
       Author.remove({ _id: authorId })
         .then(() => {
           resolve("User removed");
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  findUserByName: username => {
+    return new Promise((resolve, reject) => {
+      Author.find({ username })
+        .then(user => {
+          resolve(user);
         })
         .catch(err => {
           reject(err);
