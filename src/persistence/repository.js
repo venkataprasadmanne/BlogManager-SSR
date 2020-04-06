@@ -237,7 +237,7 @@ module.exports = {
   },
   findUserByName: username => {
     return new Promise((resolve, reject) => {
-      Author.find({ username })
+      Author.findOne({ username })
         .then(user => {
           resolve(user);
         })

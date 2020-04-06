@@ -15,9 +15,24 @@ class Example extends React.Component {
     axios
       .post("/checktoken")
       .then(res => {
-        this.setState({ isLoggedin: res });
+        console.log("res18", res);
+        this.setState({ isLoggedin: res.data });
       })
       .catch(err => {
+        console.log("res22", err);
+        this.setState({ isLoggedin: false });
+      });
+  }
+
+  componentWillReceiveProps() {
+    axios
+      .post("/checktoken")
+      .then(res => {
+        console.log("res18", res);
+        this.setState({ isLoggedin: res.data });
+      })
+      .catch(err => {
+        console.log("res22", err);
         this.setState({ isLoggedin: false });
       });
   }

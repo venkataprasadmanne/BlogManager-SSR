@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 // import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
+import SignOut from "./Components/signOut";
 import Article from "./Components/article";
 import Author from "./Components/author";
 import PostAuthor from "./Components/postAuthor";
@@ -22,6 +23,7 @@ const App = () => {
       <Route path="/" exact component={Home} />
       <Route path="/signin" component={SignIn} />
       <Route path="/signup" component={SignUp} />
+      <Route path="/signout" component={SignOut} />
       <Route path="/article/:articleId" component={Article} />
       <Route path="/author" component={Author} />
       <Route path="/postauthor" component={PostAuthor} />
