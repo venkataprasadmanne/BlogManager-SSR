@@ -12,6 +12,7 @@ class Example extends React.Component {
   }
 
   componentDidMount() {
+    console.log("page component did mount");
     axios
       .post("/checktoken")
       .then(res => {
@@ -24,7 +25,12 @@ class Example extends React.Component {
       });
   }
 
+  /* static getDerivedStateFromProps() {
+    console.log("page get derived state from props");
+  } */
+
   componentWillReceiveProps() {
+    console.log("page component will recieve props");
     axios
       .post("/checktoken")
       .then(res => {
@@ -35,6 +41,15 @@ class Example extends React.Component {
         console.log("res22", err);
         this.setState({ isLoggedin: false });
       });
+  }
+
+  shouldComponentUpdate() {
+    console.log("page component should update");
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log("page component did update");
   }
 
   settings() {
@@ -78,6 +93,7 @@ class Example extends React.Component {
   }
 
   render() {
+    console.log("page render method");
     return (
       <div>
         <Container>

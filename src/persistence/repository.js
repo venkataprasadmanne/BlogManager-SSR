@@ -102,7 +102,7 @@ module.exports = {
     });
   },
 
-  fetchArticlesByAuthor: authorId => {
+  /* fetchArticlesByAuthor: authorId => {
     return new Promise((resolve, reject) => {
       Article.find({ author: authorId })
         .exec()
@@ -113,7 +113,7 @@ module.exports = {
           reject(err);
         });
     });
-  },
+  }, */
 
   addComment: (articleId, description, authorId) => {
     return new Promise((resolve, reject) => {
@@ -195,15 +195,25 @@ module.exports = {
         });
     });
   },
-  fetchUsers: () => {
+  fetchUsers: userId => {
     return new Promise((resolve, reject) => {
-      Author.find({})
-        .then(users => {
-          resolve(users);
-        })
-        .catch(err => {
-          reject(err);
-        });
+      if (!userId) {
+        Author.find({})
+          .then(users => {
+            resolve(users);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      } else {
+        Author.find({ username: userId })
+          .then(users => {
+            resolve(users);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      }
     });
   },
 
@@ -240,6 +250,18 @@ module.exports = {
       Author.findOne({ username })
         .then(user => {
           resolve(user);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+
+  fetchArticlesByAuthor: userId => {
+    return new Promise((resolve, reject) => {
+      Article.find({ author: userId })
+        .then(res => {
+          resolve(res);
         })
         .catch(err => {
           reject(err);

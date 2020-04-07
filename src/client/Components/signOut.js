@@ -17,20 +17,25 @@ class SignOut extends React.Component {
   }
 
   componentDidMount() {
-    const { history } = this.props;
+    /* const { history } = this.props;
     localStorage.setItem("token", null);
-    console.log("in signout component");
-    history.push("/");
+    console.log("in signout component component did mount");
+    history.push("/"); */
   }
 
   componentWillReceiveProps() {
-    const { history } = this.props;
+    /* const { history } = this.props;
     localStorage.setItem("token", null);
-    console.log("in signout component");
-    history.push("/");
+    console.log("in signout component component will recieve props");
+    history.push("/"); */
   }
 
   render() {
+    console.log("in signout render");
+    const { history } = this.props;
+    localStorage.setItem("token", null);
+    console.log("in signout component component did mount");
+    history.push("/");
     return (
       <Row>
         <Col>

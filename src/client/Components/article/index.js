@@ -2,6 +2,7 @@ import React from "react";
 import { Jumbotron, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
 import ReactHtmlParser from "react-html-parser";
+import { Link } from "react-router-dom";
 import Comments from "./comments";
 import CommentInput from "./commentInput";
 
@@ -47,7 +48,7 @@ class Article extends React.Component {
   }
 
   render() {
-    const { _id, title, description } = this.props.location.state;
+    const { _id, title, description, author } = this.props.location.state;
     let comments;
     if (this.state.comments.length > 0) {
       comments = this.state.comments;
@@ -67,6 +68,7 @@ class Article extends React.Component {
               </p>
               <hr className="my-2" />
               <p>{ReactHtmlParser(description)}</p>
+              <Link to={`/author/${author}`}>{author}</Link>
             </Jumbotron>
             <span>Comments:</span>
             <Comments comments={comments} />

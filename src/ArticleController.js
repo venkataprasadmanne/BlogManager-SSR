@@ -14,14 +14,25 @@ module.exports = {
   },
 
   fetchAllArticles: (req, res) => {
-    repo
-      .fetchAllArticles()
-      .then(articles => {
-        res.send(articles);
-      })
-      .catch(err => {
-        res.send(err);
-      });
+    if (!req.query.userId) {
+      repo
+        .fetchAllArticles()
+        .then(articles => {
+          res.send(articles);
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    } else {
+      repo
+        .fetchArticlesByAuthor(req.query.userId)
+        .then(articles => {
+          res.send(articles);
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    }
   },
 
   updateArticle: (req, res) => {
@@ -69,14 +80,25 @@ module.exports = {
   },
 
   fetchUsers: (req, res) => {
-    repo
-      .fetchUsers()
-      .then(users => {
-        res.send(users);
-      })
-      .catch(err => {
-        res.send(err);
-      });
+    if (!req.query.userId) {
+      repo
+        .fetchUsers()
+        .then(users => {
+          res.send(users);
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    } else {
+      repo
+        .fetchUsers(req.query.userId)
+        .then(users => {
+          res.send(users);
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    }
   },
   updateUser: (req, res) => {
     repo
