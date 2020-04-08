@@ -67,6 +67,7 @@ module.exports = {
         req.body.firstName,
         req.body.lastName,
         req.body.email,
+        req.body.bioDescription,
         req.body.username,
         req.body.password,
         token

@@ -80,11 +80,9 @@ class Author extends React.Component {
         <Row>
           <Col>
             <Jumbotron>
-              <p className="lead" style={{ fontWeight: "bold" }}>
-                {`${author[0].firstName},${author[0].lastName}`}
-              </p>
+              <h1 className="display-3">{`${author[0].firstName},${author[0].lastName}`}</h1>
               <hr className="my-2" />
-              <p>{author.description}</p>
+              <p className="lead">{author[0].bioDescription}</p>
             </Jumbotron>
           </Col>
         </Row>

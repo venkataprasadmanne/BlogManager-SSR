@@ -21,7 +21,8 @@ function authenticateToken(req, res, next) {
   console.log("typeof token", typeof token);
   return jwt.verify(token, "shhhhh", (err, user) => {
     if (err) return res.sendStatus(403);
-    req.user = user;
+    console.log("user", user);
+    req.body.authorId = user.username;
     return next();
   });
 }

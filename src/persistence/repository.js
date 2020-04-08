@@ -8,6 +8,7 @@ const AuthorSchema = new Schema({
   firstName: String,
   lastName: String,
   email: String,
+  bioDescription: String,
   username: String,
   password: String,
   token: String,
@@ -175,12 +176,21 @@ module.exports = {
     });
   },
 
-  addUser: (firstName, lastName, email, username, password, token) => {
+  addUser: (
+    firstName,
+    lastName,
+    email,
+    bioDescription,
+    username,
+    password,
+    token
+  ) => {
     return new Promise((resolve, reject) => {
       const author = new Author({
         firstName,
         lastName,
         email,
+        bioDescription,
         username,
         password,
         token

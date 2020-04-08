@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import axios from "axios";
+import RTEditor from "../RTEditor";
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -9,10 +10,16 @@ class SignUp extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
+      bioDescription: "",
       username: "",
       password: "",
       confirmPassword: ""
     };
+    this.onchangeRTEditor = this.onchangeRTEditor.bind(this);
+  }
+
+  onchangeRTEditor(value) {
+    this.setState({ bioDescription: value.toString("html") });
   }
 
   render() {
@@ -23,6 +30,7 @@ class SignUp extends React.Component {
       firstName,
       lastName,
       email,
+      bioDescription,
       username,
       password,
       confirmPassword
@@ -72,6 +80,10 @@ class SignUp extends React.Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label>Bio Description</Label>
+              <RTEditor onChangeRTE={this.onchangeRTEditor} />
+            </FormGroup>
+            <FormGroup>
               <Label>Username</Label>
               <Input
                 type="text"
@@ -118,6 +130,7 @@ class SignUp extends React.Component {
                     firstName,
                     lastName,
                     email,
+                    bioDescription,
                     username,
                     password
                   })
