@@ -6,6 +6,8 @@ import {
   ListGroupItemText,
   Badge
 } from "reactstrap";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 import PropTypes from "prop-types";
 
 class Comments extends React.Component {
@@ -45,7 +47,9 @@ class Comments extends React.Component {
   }
 
   render() {
-    const { comments } = this.props;
+    const { comments, username } = this.props;
+    console.log("comments", comments);
+    console.log("username", username);
     return (
       <ListGroup>
         {comments.map(comment => {
@@ -54,7 +58,13 @@ class Comments extends React.Component {
               <ListGroupItemHeading>
                 <Badge color="secondary">{comment.author}</Badge>
               </ListGroupItemHeading>
-              <ListGroupItemText>{comment.description}</ListGroupItemText>
+              <ListGroupItemText>
+                {comment.description}
+                {"      "}
+                {username === comment.author ? <MdDelete /> : null}
+                {"      "}
+                {username === comment.author ? <FaEdit /> : null}
+              </ListGroupItemText>
             </ListGroupItem>
           );
         })}

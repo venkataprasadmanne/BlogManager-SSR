@@ -17,8 +17,6 @@ function authenticateToken(req, res, next) {
   if (!token) {
     return res.sendStatus(401);
   }
-  console.log("token", token);
-  console.log("typeof token", typeof token);
   return jwt.verify(token, "shhhhh", (err, user) => {
     if (err) return res.sendStatus(403);
     console.log("user", user);
@@ -35,7 +33,7 @@ app.post("/checktoken", (req, res) => {
   if (!token) {
     return res.send(false);
   }
-  console.log("token",token);
+  console.log("token", token);
   jwt.verify(token, "shhhhh", (err, user) => {
     if (err) {
       console.log("err", err);
@@ -68,6 +66,10 @@ app.delete(
   authenticateToken,
   ArticleController.removeUser
 );
+app.get("/api/userinfo", authenticateToken, function(req, res) {
+  console.log("sending respnse", req.body.author);
+  res.send({ username: req.body.authorId });
+});
 
 // comments related API
 app.post(
