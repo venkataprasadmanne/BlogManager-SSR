@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdThumbUp } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import Comments from "./comments";
 import CommentInput from "./commentInput";
@@ -28,7 +28,7 @@ class Article extends React.Component {
       .get("/api/userinfo")
       .then(res => {
         console.log("api user response", res);
-        this.setState({ user: res.data });
+        this.setState({ user: res.data.username });
       })
       .catch(err => {
         console.log("err");
@@ -84,10 +84,14 @@ class Article extends React.Component {
               <hr className="my-2" />
               <p>{ReactHtmlParser(description)}</p>
               <Link to={`/author/${author}`}>{author}</Link>
-              {"      "}
-              {username === author ? <MdDelete /> : null}
-              {"      "}
-              {username === author ? <FaEdit /> : null}
+
+              <div>
+                {username === author ? <MdDelete /> : null}
+                {"      "}
+                {username === author ? <FaEdit /> : null}
+                {"      "}
+                <MdThumbUp />
+              </div>
             </Jumbotron>
             <span>Comments:</span>
             <Comments comments={comments} username={username} />

@@ -66,10 +66,7 @@ app.delete(
   authenticateToken,
   ArticleController.removeUser
 );
-app.get("/api/userinfo", authenticateToken, function(req, res) {
-  console.log("sending respnse", req.body.author);
-  res.send({ username: req.body.authorId });
-});
+app.get("/api/userinfo", authenticateToken, ArticleController.fetchUserInfo);
 
 // comments related API
 app.post(

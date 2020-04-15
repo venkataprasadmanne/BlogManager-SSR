@@ -227,12 +227,43 @@ module.exports = {
     });
   },
 
-  updateUser: (authorId, password) => {
+  fetchUserInfo: username => {
+    return new Promise((resolve, reject) => {
+      console.log("username", username);
+      Author.findOne({ username })
+        .then(author => {
+          if (author) {
+            resolve(author);
+          } else {
+            throw "error fetching the author info";
+          }
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+
+  updateUser: (authorId, data) => {
     return new Promise((resolve, reject) => {
       console.log("authorId", authorId);
       Author.findOne({ _id: authorId })
         .exec()
         .then(author => {
+          const {
+            firstName,
+            lastName,
+            email,
+            bioDescription,
+            username,
+            password
+          } = data;
+
+          author.firstName = firstName;
+          author.lastName = lastName;
+          author.email = email;
+          author.bioDescription = bioDescription;
+          author.username = username;
           author.password = password;
           return author.save();
         })

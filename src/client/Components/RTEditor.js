@@ -4,24 +4,23 @@ import PropTypes from "prop-types";
 
 class MyStatefulEditor extends Component {
   state = {
-    value: RichTextEditor.createEmptyValue()
+    // value: RichTextEditor.createEmptyValue()
   };
 
   onChange = value => {
-    console.log(value.toString("html"));
-    this.setState({ value });
+    console.log("change in rte", value)
     this.props.onChangeRTE(value);
-    console.log(this);
   };
 
   render() {
-    const { value } = this.state;
+    const { value } = this.props;
     return <RichTextEditor value={value} onChange={this.onChange} />;
   }
 }
 
 MyStatefulEditor.propTypes = {
-  onChangeRTE: PropTypes.func.isRequired
+  onChangeRTE: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
 };
 
 export default MyStatefulEditor;

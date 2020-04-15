@@ -101,9 +101,21 @@ module.exports = {
         });
     }
   },
+
+  fetchUserInfo: (req, res) => {
+    const username = req.body.authorId;
+    repo
+      .fetchUserInfo(username)
+      .then(userInfo => {
+        res.send(userInfo);
+      })
+      .catch(err => {
+        res.send(err);
+      });
+  },
   updateUser: (req, res) => {
     repo
-      .updateUser(req.params.userId, req.body.password)
+      .updateUser(req.params.userId, req.body.data)
       .then(updatedUser => {
         res.send(updatedUser);
       })
