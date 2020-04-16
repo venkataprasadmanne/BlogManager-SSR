@@ -1,5 +1,5 @@
 import React from "react";
-import { Jumbotron, Row, Col } from "reactstrap";
+import { Jumbotron, Row, Col, Button } from "reactstrap";
 import PropTypes from "prop-types";
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom";
@@ -27,6 +27,7 @@ class Article extends React.Component {
     axios
       .get("/api/userinfo")
       .then(res => {
+        console.log("res123456", res);
         console.log("api user response", res);
         this.setState({ user: res.data.username });
       })
@@ -61,7 +62,7 @@ class Article extends React.Component {
 
   render() {
     const { _id, title, description, author } = this.props.location.state;
-    const { username } = this.state.user;
+    const username = this.state.user;
     console.log("author article ", author);
     console.log("username article ", username);
     let comments;
@@ -86,11 +87,27 @@ class Article extends React.Component {
               <Link to={`/author/${author}`}>{author}</Link>
 
               <div>
-                {username === author ? <MdDelete /> : null}
+                {username === author ? (
+                  <Button>
+                    {" "}
+                    <MdDelete />
+                  </Button>
+                ) : null}
                 {"      "}
-                {username === author ? <FaEdit /> : null}
+                {username === author ? (
+                  <Button
+                    onClick={() => {
+                      console.log("clicked on editbutton");
+                    }}
+                  >
+                    <FaEdit />
+{" "}
+                  </Button>
+                ) : null}
                 {"      "}
-                <MdThumbUp />
+                <Button>
+                  <MdThumbUp />
+                </Button>
               </div>
             </Jumbotron>
             <span>Comments:</span>
