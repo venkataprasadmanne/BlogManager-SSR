@@ -118,7 +118,11 @@ class Article extends React.Component {
                 {username === author ? (
                   <Button
                     onClick={() => {
-                      console.log("clicked on editbutton");
+                      history.push("/postarticle", {
+                        articleId: _id,
+                        title,
+                        description
+                      });
                     }}
                   >
                     <FaEdit />
@@ -143,7 +147,12 @@ class Article extends React.Component {
               </div>
             </Jumbotron>
             <span>Comments:</span>
-            <Comments comments={comments} username={username} />
+            <Comments
+              comments={comments}
+              username={username}
+              articleId={_id}
+              updateArticle={this.updateArticle}
+            />
             <br />
             <CommentInput articleId={_id} updateArticle={this.updateArticle} />
             <br />

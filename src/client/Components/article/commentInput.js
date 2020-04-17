@@ -7,7 +7,10 @@ class CommentInput extends React.Component {
   constructor(props) {
     console.log("comment input constructor");
     super(props);
-    this.state = { description: "" };
+    this.state = {
+      isEdit: !!props.description,
+      description: props.description ? props.description : ""
+    };
     this.changeDescription = this.changeDescription.bind(this);
   }
 
@@ -47,8 +50,8 @@ class CommentInput extends React.Component {
   }
 
   render() {
-    const { description } = this.state;
-    const { updateArticle, articleId } = this.props;
+    const { description, isEdit } = this.state;
+    const { updateArticle, articleId, commentId } = this.props;
     const authorId = "venkatap";
     return (
       <Row>
@@ -70,10 +73,12 @@ class CommentInput extends React.Component {
               color="info"
               onClick={() => {
                 console.log("clicked");
+                const url = isEdit
+                  ? `/api/articles/${articleId}/comments/${commentId}`
+                  : `/api/articles/${articleId}/comments`;
                 axios
-                  .post(`/api/articles/${articleId}/comments`, {
-                    description,
-                    authorId
+                  .post(url, {
+                    description
                   })
                   .then(res => {
                     console.log("res", res);

@@ -7,7 +7,12 @@ import RTEditor from "../RTEditor";
 class PostArticle extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { title: "", description: RichTextEditor.createEmptyValue() };
+    this.state = {
+      title: this.props.location.state && props.location.state.title ? props.location.state.title : "",
+      description: this.props.location.state && props.location.state.description
+        ? RichTextEditor.createValueFromString(props.location.state.description, "html")
+        : RichTextEditor.createEmptyValue()
+    };
     this.onchangeRTEditor = this.onchangeRTEditor.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -22,7 +27,6 @@ class PostArticle extends React.Component {
 
   render() {
     const { title, description } = this.state;
-    const authorId = "venkatap";
     const { push } = this.props.history;
     return (
       <Row>
@@ -48,9 +52,12 @@ class PostArticle extends React.Component {
             <Button
               color="info"
               onClick={() => {
+                const url = this.props.location.state && this.props.location.state.description
+                  ? `/api/articles/${this.props.location.state.articleId}`
+                  : "/api/articles";
                 axios
-                  .post("/api/articles", {
-                    authorId,
+                  .post(url, {
+                    // authorId,
                     title,
                     description: description.toString("html")
                   })
