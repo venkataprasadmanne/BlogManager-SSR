@@ -130,7 +130,7 @@ module.exports = {
         res.send(message);
       })
       .catch(err => {
-        res.send(err);
+        res.sendStatus(500);
       });
   },
   loginUser: (req, res) => {

@@ -12,7 +12,7 @@ import CommentInput from "./commentInput";
 class Article extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], user: {} };
+    this.state = { comments: [], user: {}, likes: 0 };
     this.updateArticle = this.updateArticle.bind(this);
   }
 
@@ -61,8 +61,13 @@ class Article extends React.Component {
   }
 
   render() {
+    const that = this;
     const { _id, title, description, author } = this.props.location.state;
+    const likes = this.state.likes
+      ? this.state.likes
+      : this.props.location.state.likes;
     const username = this.state.user;
+    const { history } = this.props;
     console.log("author article ", author);
     console.log("username article ", username);
     let comments;
@@ -88,7 +93,23 @@ class Article extends React.Component {
 
               <div>
                 {username === author ? (
-                  <Button>
+                  <Button
+                    onClick={() => {
+                      axios
+                        .delete(`/api/articles/${_id}`)
+                        .then(res => {
+                          console.log("res", res);
+                          if (res.status === 200) {
+                            history.push("/");
+                          } else {
+                            throw "something went wrong";
+                          }
+                        })
+                        .catch(err => {
+                          console.log("err", err);
+                        });
+                    }}
+                  >
                     {" "}
                     <MdDelete />
                   </Button>
@@ -105,8 +126,19 @@ class Article extends React.Component {
                   </Button>
                 ) : null}
                 {"      "}
-                <Button>
-                  <MdThumbUp />
+                <Button
+                  onClick={() => {
+                    axios
+                      .post(`/api/articles/${_id}`, { likes: likes + 1 })
+                      .then(res => {
+                        that.setState({ likes: likes + 1 });
+                      })
+                      .catch(err => {
+                        console.log("error", error);
+                      });
+                  }}
+                >
+                  {likes} <MdThumbUp />
                 </Button>
               </div>
             </Jumbotron>

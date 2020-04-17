@@ -56,9 +56,10 @@ module.exports = {
     });
   },
   removeArticle: articleId => {
-    return new promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       Article.remove({ _id: articleId }, err => {
         if (err) {
+          console.log(err);
           reject(err);
         } else {
           resolve("article removed");
@@ -71,6 +72,7 @@ module.exports = {
       Article.findOne({ _id: articleId })
         .exec()
         .then(article => {
+          console.log("article", article);
           if (title) {
             article.title = title;
           }
@@ -78,7 +80,7 @@ module.exports = {
             article.description = description;
           }
           if (likes) {
-            article.likes++;
+            article.likes += 1;
           }
           return article.save();
         })

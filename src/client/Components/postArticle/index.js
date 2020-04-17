@@ -1,18 +1,19 @@
 import React from "react";
 import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
 import axios from "axios";
+import RichTextEditor from "react-rte";
 import RTEditor from "../RTEditor";
 
 class PostArticle extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { title: "", description: "" };
+    this.state = { title: "", description: RichTextEditor.createEmptyValue() };
     this.onchangeRTEditor = this.onchangeRTEditor.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   onchangeRTEditor(value) {
-    this.setState({ description: value.toString("html") });
+    this.setState({ description: value });
   }
 
   handleChange(event) {
@@ -39,13 +40,20 @@ class PostArticle extends React.Component {
               />
             </FormGroup>
             <FormGroup>
-              <RTEditor onChangeRTE={this.onchangeRTEditor} />
+              <RTEditor
+                value={description}
+                onChangeRTE={this.onchangeRTEditor}
+              />
             </FormGroup>
             <Button
               color="info"
               onClick={() => {
                 axios
-                  .post("/api/articles", { authorId, title, description })
+                  .post("/api/articles", {
+                    authorId,
+                    title,
+                    description: description.toString("html")
+                  })
                   .then(res => {
                     console.log(res);
                     const { _id, title, description, comments } = res.data;
