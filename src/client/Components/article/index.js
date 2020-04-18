@@ -12,7 +12,7 @@ import CommentInput from "./commentInput";
 class Article extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], user: {}, likes: 0 };
+    this.state = { comments: [], user: {}, likes: 0 , commentId:""};
     this.updateArticle = this.updateArticle.bind(this);
   }
 
@@ -56,8 +56,8 @@ class Article extends React.Component {
     console.log(" article prev state", prevState);
   }
 
-  updateArticle(comments) {
-    this.setState({ comments });
+  updateArticle(comments,commentId) {
+    this.setState({ comments, commentId });
   }
 
   render() {
@@ -67,6 +67,7 @@ class Article extends React.Component {
       ? this.state.likes
       : this.props.location.state.likes;
     const username = this.state.user;
+    const {commentId}=this.state;
     const { history } = this.props;
     console.log("author article ", author);
     console.log("username article ", username);
@@ -150,7 +151,7 @@ class Article extends React.Component {
             <Comments
               comments={comments}
               username={username}
-              articleId={_id}
+              articleId={_id} commentId = {commentId}
               updateArticle={this.updateArticle}
             />
             <br />

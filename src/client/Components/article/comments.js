@@ -16,7 +16,7 @@ import CommentInput from "./commentInput";
 class Comments extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { commentId: "" };
+    this.state = { };
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -50,14 +50,15 @@ class Comments extends React.Component {
   }
 
   render() {
-    const { comments, username, articleId, updateArticle } = this.props;
-    const { commentId } = this.state;
+    const { comments, username, articleId, updateArticle,commentId } = this.props;
     const that = this;
     console.log("comments", comments);
     console.log("username", username);
     return (
       <ListGroup>
         {comments.map(comment => {
+          console.log("comment in render", comment)
+          console.log("commentId in render", commentId)
           const jsx =
             comment._id === commentId ? (
               <CommentInput
@@ -83,8 +84,9 @@ class Comments extends React.Component {
                           )
                           .then(res => {
                             console.log("res", res);
+                            //that.state.commentId = "";
                             updateArticle(res.data.comments);
-                            that.setState({ commentId: "" });
+                            // that.setState({ commentId: "" });
                           })
                           .catch(err => {
                             console.log("err", err);
@@ -98,7 +100,8 @@ class Comments extends React.Component {
                   {username === comment.author ? (
                     <Button
                       onClick={() => {
-                        that.setState({ commentId: comment._id });
+                        //that.setState({ commentId: comment._id });
+                        updateArticle(comments, comment._id);
                       }}
                     >
                       <FaEdit />
