@@ -85,8 +85,8 @@ app.post(
   ArticleController.updateComment
 );
 
-app.get("*", authenticateToken, function index(req, res) {
-  console.log("is this being used");
+app.get("*", function index(req, res) {
+  console.log("is this being used",req.url);
   res.sendFile(path.resolve(__dirname, "../", "public/index.html"));
 });
 

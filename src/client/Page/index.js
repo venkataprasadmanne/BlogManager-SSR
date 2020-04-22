@@ -1,59 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Nav, NavItem, Container, Row, Col } from "reactstrap";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import App from "../App";
 import "./nav.css";
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isLoggedin: false };
-  }
+export default function Page(props) {
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
-  componentDidMount() {
-    console.log("page component did mount");
+  useEffect(() => {
     axios
       .post("/checktoken")
       .then(res => {
-        console.log("res18", res);
-        this.setState({ isLoggedin: res.data });
+        setIsLoggedin(res.data);
       })
       .catch(err => {
-        console.log("res22", err);
-        this.setState({ isLoggedin: false });
+        setIsLoggedin(false);
       });
-  }
+  }, []);
 
-  /* static getDerivedStateFromProps() {
-    console.log("page get derived state from props");
-  } */
-
-  componentWillReceiveProps() {
-    console.log("page component will recieve props");
+  useEffect(() => {
     axios
       .post("/checktoken")
       .then(res => {
-        console.log("res18", res);
-        this.setState({ isLoggedin: res.data });
+        setIsLoggedin(res.data);
       })
       .catch(err => {
-        console.log("res22", err);
-        this.setState({ isLoggedin: false });
+        setIsLoggedin(false);
       });
-  }
+  }, [props]);
 
-  shouldComponentUpdate() {
-    console.log("page component should update");
-    return true;
-  }
-
-  componentDidUpdate() {
-    console.log("page component did update");
-  }
-
-  settings() {
-    return this.state.isLoggedin ? (
+  function settings() {
+    return isLoggedin ? (
       <NavItem>
         <NavLink to="/postauthor" className="nav-link">
           Settings
@@ -64,8 +42,8 @@ class Example extends React.Component {
     );
   }
 
-  signInOut() {
-    return this.state.isLoggedin ? (
+  function signInOut() {
+    return isLoggedin ? (
       <NavItem>
         <NavLink to="/signout" className="nav-link">
           Sign Out
@@ -80,8 +58,8 @@ class Example extends React.Component {
     );
   }
 
-  createArticle() {
-    return this.state.isLoggedin ? (
+  function createArticle() {
+    return isLoggedin ? (
       <NavItem>
         <NavLink to="/postarticle" className="nav-link">
           Create Article
@@ -91,31 +69,25 @@ class Example extends React.Component {
       ""
     );
   }
-
-  render() {
-    console.log("page render method");
-    return (
-      <div>
-        <Container>
-          <Row>
-            <Col>
-              <Nav tabs>
-                <NavItem>
-                  <NavLink to="/" className="nav-link">
-                    Home
-                  </NavLink>
-                </NavItem>
-                {this.createArticle()}
-                {this.signInOut()}
-                {this.settings()}
-              </Nav>
-            </Col>
-          </Row>
-          <App />
-        </Container>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Container>
+        <Row>
+          <Col>
+            <Nav tabs>
+              <NavItem>
+                <NavLink to="/" className="nav-link">
+                  Home
+                </NavLink>
+              </NavItem>
+              {createArticle()}
+              {signInOut()}
+              {settings()}
+            </Nav>
+          </Col>
+        </Row>
+        <App />
+      </Container>
+    </div>
+  );
 }
-
-export default Example;
