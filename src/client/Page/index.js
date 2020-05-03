@@ -4,11 +4,12 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import App from "../App";
 import "./nav.css";
+import { ContextConsumer } from "../UserContext";
 
 export default function Page(props) {
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  // const [isLoggedin, setIsLoggedin] = useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     axios
       .post("/checktoken")
       .then(res => {
@@ -28,9 +29,9 @@ export default function Page(props) {
       .catch(err => {
         setIsLoggedin(false);
       });
-  }, [props]);
+  }, [props]); */
 
-  function settings() {
+  function settings(isLoggedin) {
     return isLoggedin ? (
       <NavItem>
         <NavLink to="/postauthor" className="nav-link">
@@ -42,7 +43,7 @@ export default function Page(props) {
     );
   }
 
-  function signInOut() {
+  function signInOut(isLoggedin) {
     return isLoggedin ? (
       <NavItem>
         <NavLink to="/signout" className="nav-link">
@@ -58,7 +59,7 @@ export default function Page(props) {
     );
   }
 
-  function createArticle() {
+  function createArticle(isLoggedin) {
     return isLoggedin ? (
       <NavItem>
         <NavLink to="/postarticle" className="nav-link">
@@ -80,9 +81,9 @@ export default function Page(props) {
                   Home
                 </NavLink>
               </NavItem>
-              {createArticle()}
-              {signInOut()}
-              {settings()}
+              <ContextConsumer>{value => createArticle(value)}</ContextConsumer>
+              <ContextConsumer>{value => signInOut(value)}</ContextConsumer>
+              <ContextConsumer>{value => settings(value)}</ContextConsumer>
             </Nav>
           </Col>
         </Row>

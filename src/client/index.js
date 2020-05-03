@@ -5,13 +5,14 @@ import Page from "./Page";
 // import Navbar from './Navbar';
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
+import WrapUserContext from "./UserContext";
 
 ReactDOM.render(
-  <div>
-    <Router>
+  <Router>
+    <WrapUserContext>
       <Route path="/" eaxct component={Page} />
-    </Router>
-  </div>,
+    </WrapUserContext>
+  </Router>,
   document.getElementById("root")
 );
 
