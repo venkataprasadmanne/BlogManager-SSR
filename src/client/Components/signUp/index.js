@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import axios from "axios";
 import RichTextEditor from "react-rte";
+import { useSelector, useDispatch } from "react-redux";
 import RTEditor from "../RTEditor";
+import { signUp, SIGN_UP_UNMOUNT } from "../../Redux/actions";
 
 export default function SignUp(props) {
   const [id, setId] = useState(null);
@@ -16,10 +18,26 @@ export default function SignUp(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const dispatch = useDispatch();
+  const propsFromStore = useSelector(state => {
+    return {
+      /* id: state.user.data.id,
+      firstName: state.user.data.firstName,
+      lastName: state.user.data.lastName,
+      email: state.user.data.email,
+      bioDescription: state.user.data.bioDescription,
+      username: state.user.data.username,
+      password: state.user.data.password, */
+      token: state.user.token,
+      loading: true
+    };
+  });
+
   useEffect(() => {
     axios
       .get("/api/userinfo")
       .then(res => {
+        console.log("userinfo res", res);
         setId(res.data._id);
         setFirstName(res.data.firstName);
         setLastName(res.data.lastName);
@@ -34,12 +52,22 @@ export default function SignUp(props) {
       .catch(err => {
         console.log("err", err);
       });
+    return () => {
+       dispatch({ type: SIGN_UP_UNMOUNT });
+    };
   }, []);
+
+  const { history } = props;
+  useEffect(() => {
+    if (propsFromStore.token && propsFromStore.loading) {
+      localStorage.setItem("token", propsFromStore.token);
+      history.push("/");
+    }
+  }, [propsFromStore.token, propsFromStore.loading]);
 
   function onchangeRTEditor(value) {
     setBioDescription(value);
   }
-  const { history } = props;
   return (
     <Row>
       <Col>
@@ -130,45 +158,15 @@ export default function SignUp(props) {
           <Button
             color="info"
             onClick={() => {
-              if (!id) {
-                axios
-                  .post("/api/users", {
-                    firstName,
-                    lastName,
-                    email,
-                    bioDescription: bioDescription.toString("html"),
-                    username,
-                    password
-                  })
-                  .then(response => {
-                    console.log("response", response);
-                    localStorage.setItem("token", response.data.token);
-                    history.push("/");
-                  })
-                  .catch(err => {
-                    console.log("err", err);
-                  });
-              } else {
-                axios
-                  .post(`/api/users/${id}`, {
-                    data: {
-                      firstName,
-                      lastName,
-                      email,
-                      bioDescription: bioDescription.toString("html"),
-                      username,
-                      password
-                    }
-                  })
-                  .then(response => {
-                    console.log("response", response);
-                    localStorage.setItem("token", response.data.token);
-                    history.push("/");
-                  })
-                  .catch(err => {
-                    console.log("err", err);
-                  });
-              }
+              signUp({
+                id,
+                firstName,
+                lastName,
+                email,
+                bioDescription,
+                username,
+                password
+              })(dispatch);
             }}
           >
             SignUp

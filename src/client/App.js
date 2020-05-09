@@ -4,11 +4,11 @@ import { Route } from "react-router-dom";
 import SignOut from "./Components/signOut";
 import Article from "./Components/article";
 import Author from "./Components/author";
-import PostAuthor from "./Components/postAuthor";
 import PostArticle from "./Components/postArticle";
 import SignIn from "./Components/signIn";
 import SignUp from "./Components/signUp";
 import Home from "./Components/home";
+import PrivateRoute from "./Components/PrivateRoute";
 
 /* const config = {
   issuer: "https://dev-137949.okta.com/oauth2/default",
@@ -24,10 +24,10 @@ const App = () => {
       <Route path="/signin" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/signout" component={SignOut} />
-      <Route path="/article/:articleId" component={Article} />
-      <Route path="/author/:authorId" component={Author} />
-      <Route path="/postauthor" component={SignUp} />
-      <Route path="/postarticle" component={PostArticle} />
+      <PrivateRoute path="/postarticle" component={PostArticle} />
+      <PrivateRoute path="/article/:articleId" component={Article} />
+      <PrivateRoute path="/author/:authorId" component={Author} />
+      <PrivateRoute path="/postauthor" component={SignUp} />
     </div>
   );
 };

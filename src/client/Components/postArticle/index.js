@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
-import axios from "axios";
 import RichTextEditor from "react-rte";
+import { useSelector, useDispatch } from "react-redux";
 import RTEditor from "../RTEditor";
+import { postArticle, POST_ARTICLE_UNMOUNT } from "../../Redux/actions";
 
 export default function PostArticle(props) {
   const [title, setTitle] = useState(
@@ -19,6 +20,28 @@ export default function PostArticle(props) {
       : RichTextEditor.createEmptyValue()
   );
 
+  const articleId = props.location.state
+    ? props.location.state.articleId
+    : null;
+
+  const dispatch = useDispatch();
+  const propsFromStore = useSelector(state => {
+    return {
+      article: state.postarticle.article,
+      loading: state.postarticle.loading,
+      error: state.postarticle.error
+    };
+  });
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: POST_ARTICLE_UNMOUNT });
+    };
+  }, []);
+
+  const { loading, article, error } = propsFromStore;
+  console.log("props from store", propsFromStore);
+
   function onchangeRTEditor(value) {
     setDescription(value);
   }
@@ -26,8 +49,21 @@ export default function PostArticle(props) {
   function handleChange(event) {
     setTitle(event.target.value);
   }
-  // const { title, description } = this.state;
   const { push } = props.history;
+  if (!loading && article && article._id) {
+    const {
+      _id,
+      title: articleTitle,
+      description: articleDescription,
+      comments
+    } = article;
+    push(`/article/${_id}`, {
+      _id,
+      title: articleTitle,
+      description: articleDescription,
+      comments
+    });
+  }
   return (
     <Row>
       <Col>
@@ -49,31 +85,13 @@ export default function PostArticle(props) {
           <Button
             color="info"
             onClick={() => {
-              const url =
-                props.location.state && props.location.state.description
-                  ? `/api/articles/${props.location.state.articleId}`
-                  : "/api/articles";
-              axios
-                .post(url, {
-                  title,
-                  description: description.toString("html")
-                })
-                .then(res => {
-                  console.log(res);
-                  const { _id, title, description, comments } = res.data;
-                  push(`/article/${_id}`, {
-                    _id,
-                    title,
-                    description,
-                    comments
-                  });
-                })
-                .catch(err => {
-                  console.log(err);
-                });
+              postArticle(articleId, {
+                title,
+                description
+              })(dispatch);
             }}
           >
-            Create Article
+            {articleId ? "Save Article" : "Create Article"}
           </Button>
         </Form>
       </Col>

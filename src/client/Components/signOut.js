@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Col, Alert } from "reactstrap";
-import axios from "axios";
 
 export default function SignOut(props) {
   const { history } = props;

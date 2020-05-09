@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 import Page from "./Page";
 // import Navbar from './Navbar';
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
-import WrapUserContext from "./UserContext";
+import createStore from "./Redux/store";
 
 ReactDOM.render(
-  <Router>
-    <WrapUserContext>
+  <Provider store={createStore()}>
+    <Router>
       <Route path="/" eaxct component={Page} />
-    </WrapUserContext>
-  </Router>,
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 

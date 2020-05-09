@@ -1,37 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Jumbotron, Row, Col, Button } from "reactstrap";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchArticles } from "../../Redux/actions";
 
-axios.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem("token");
+function Home(props) {
+  const propsFromStore = useSelector(state => {
+    console.log("redux state", state);
+    return {
+      data: state.articles.data,
+      error: state.articles.error,
+      loading: state.articles.loading
+    };
+  });
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  error => Promise.reject(error)
-);
-
-export default function Home(props) {
-  const [loading, setLoading] = useState(null);
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get("/api/articles")
-      .then(response => {
-        setLoading(true);
-        setData(response.data);
-      })
-      .catch(() => {
-        setError(true);
-      });
+    fetchArticles()(dispatch);
   }, []);
+  const { data, loading, error } = propsFromStore;
   if (data.length > 0) {
     return (
       <div>
@@ -102,3 +89,5 @@ export default function Home(props) {
     </Row>
   );
 }
+
+export default Home;

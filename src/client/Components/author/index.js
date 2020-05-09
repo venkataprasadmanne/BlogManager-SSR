@@ -1,19 +1,32 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { Row, Col, Jumbotron, Button } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserInfo } from "../../Redux/actions";
 
 export default function Author(props) {
-  const [author, setAuthor] = useState({});
+  /* const [author, setAuthor] = useState({});
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); */
 
+  const dispatch = useDispatch();
+  const propsFromStore = useSelector(state => {
+    return {
+      user: state.userInfo.user,
+      articles: state.userInfo.articles,
+      loading: state.userInfo.loading,
+      error: state.userInfo.error
+    };
+  });
+  const { user, articles, loading, error } = propsFromStore;
+  console.log("propsFromStore", propsFromStore);
   const {
     match: { params }
   } = props;
 
   useEffect(() => {
-    setLoading(true);
+    fetchUserInfo(params.authorId)(dispatch);
+    /* setLoading(true);
     axios
       .all([
         axios.get(`/api/users?userId=${params.authorId}`),
@@ -28,7 +41,7 @@ export default function Author(props) {
       .catch(err => {
         setLoading(false);
         setError(true);
-      });
+      }); */
   }, []);
 
   if (loading) {
@@ -59,15 +72,15 @@ export default function Author(props) {
       </Row>
     );
   }
-  if (author[0] && (author[0].firstName || author[0].lastName)) {
+  if (user && (user.firstName || user.lastName)) {
     return (
       <div>
         <Row>
           <Col>
             <Jumbotron>
-              <h1 className="display-3">{`${author[0].firstName},${author[0].lastName}`}</h1>
+              <h1 className="display-3">{`${user.firstName},${user.lastName}`}</h1>
               <hr className="my-2" />
-              <p className="lead">{author[0].bioDescription}</p>
+              <p className="lead">{user.bioDescription}</p>
             </Jumbotron>
           </Col>
         </Row>
