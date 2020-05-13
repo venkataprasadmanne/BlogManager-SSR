@@ -1,13 +1,11 @@
 import React from "react";
 import { Nav, NavItem, Container, Row, Col } from "reactstrap";
 import { NavLink } from "react-router-dom";
-// mport App from "../App";
 import "./nav.css";
 import UserContext from "../UserContext";
 import PageContextProvider from "./PageContextProvider";
 
 export default function Navbar(props) {
-  console.log("in nav bar ", props);
   function settings(isLoggedin) {
     return isLoggedin ? (
       <NavItem>
@@ -21,7 +19,6 @@ export default function Navbar(props) {
   }
 
   function signInOut(isLoggedin) {
-    console.log("is this function signinout  called", isLoggedin);
     return isLoggedin ? (
       <NavItem>
         <NavLink to="/signout" className="nav-link">

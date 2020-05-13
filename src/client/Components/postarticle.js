@@ -10,8 +10,8 @@ import {
 } from "reactstrap";
 import RichTextEditor from "react-rte";
 import { useSelector, useDispatch } from "react-redux";
-import RTEditor from "../RTEditor";
-import { postArticle, POST_ARTICLE_UNMOUNT } from "../../Redux/actions";
+import RTEditor from "./RTEditor";
+import { postArticle, POST_ARTICLE_UNMOUNT } from "../Redux/actions";
 
 export default function PostArticle(props) {
   const [title, setTitle] = useState(

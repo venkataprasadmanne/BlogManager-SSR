@@ -12,8 +12,8 @@ import {
 import axios from "axios";
 import RichTextEditor from "react-rte";
 import { useSelector, useDispatch } from "react-redux";
-import RTEditor from "../RTEditor";
-import { signUp, SIGN_UP_MOUNT, SIGN_UP_UNMOUNT } from "../../Redux/actions";
+import RTEditor from "./RTEditor";
+import { signUp, SIGN_UP_MOUNT, SIGN_UP_UNMOUNT } from "../Redux/actions";
 
 export default function SignUp(props) {
   const [id, setId] = useState(null);
@@ -43,22 +43,11 @@ export default function SignUp(props) {
     };
   });
 
-  /* setId(propsFromStore.id);
-  setFirstName(propsFromStore.firstName);
-  setLastName(propsFromStore.lastName);
-  setEmail(propsFromStore.email);
-  setBioDescription(
-    RichTextEditor.createValueFromString(propsFromStore.bioDescription, "html")
-  );
-  setUsername(propsFromStore.username);
-  setPassword(propsFromStore.password);
-  setConfirmPassword(propsFromStore.password); */
 
   useEffect(() => {
     axios
       .get("/api/userinfo")
       .then(res => {
-        console.log("userinfo res", res);
         setId(res.data._id);
         setFirstName(res.data.firstName);
         setLastName(res.data.lastName);
@@ -69,11 +58,6 @@ export default function SignUp(props) {
         setUsername(res.data.username);
         setPassword(res.data.password);
         setConfirmPassword(res.data.password);
-        /* dispatch({
-          type: SIGN_UP_MOUNT,
-          data: res.data,
-          token: res.data.token
-        }); */
       })
       .catch(err => {
         console.log("err", err);
@@ -81,7 +65,7 @@ export default function SignUp(props) {
     return () => {
       dispatch({ type: SIGN_UP_UNMOUNT });
     };
-  }, []);
+  }, [dispatch]);
 
   const { history } = props;
   useEffect(() => {
@@ -89,7 +73,7 @@ export default function SignUp(props) {
       localStorage.setItem("token", propsFromStore.token);
       history.push("/");
     }
-  }, [propsFromStore.token, propsFromStore.loading]);
+  }, [propsFromStore.token, propsFromStore.loading, history]);
 
   function onchangeRTEditor(value) {
     setBioDescription(value);

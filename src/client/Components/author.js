@@ -1,14 +1,9 @@
 import React, { useEffect } from "react";
 import { Row, Col, Container, Jumbotron, Button } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserInfo } from "../../Redux/actions";
+import { fetchUserInfo } from "../Redux/actions";
 
 export default function Author(props) {
-  /* const [author, setAuthor] = useState({});
-  const [articles, setArticles] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false); */
-
   const dispatch = useDispatch();
   const propsFromStore = useSelector(state => {
     return {
@@ -19,29 +14,12 @@ export default function Author(props) {
     };
   });
   const { user, articles, loading, error } = propsFromStore;
-  console.log("propsFromStore", propsFromStore);
   const {
     match: { params }
   } = props;
 
   useEffect(() => {
     fetchUserInfo(params.authorId)(dispatch);
-    /* setLoading(true);
-    axios
-      .all([
-        axios.get(`/api/users?userId=${params.authorId}`),
-        axios.get(`/api/articles?userId=${params.authorId}`)
-      ])
-      .then(resArray => {
-        setLoading(false);
-        setError(false);
-        setAuthor(resArray[0].data);
-        setArticles(resArray[1].data);
-      })
-      .catch(err => {
-        setLoading(false);
-        setError(true);
-      }); */
   }, [dispatch, params.authorId]);
 
   if (loading) {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import RichTextEditor from "react-rte";
 import PropTypes from "prop-types";
 

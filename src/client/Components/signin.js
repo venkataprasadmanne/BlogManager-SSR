@@ -9,10 +9,9 @@ import {
   Row,
   Col
 } from "reactstrap";
-// import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { SIGN_IN_UNMOUNT, signIn } from "../../Redux/actions";
+import { SIGN_IN_UNMOUNT, signIn } from "../Redux/actions";
 
 export default function SignIn(props) {
   const [username, setUsername] = useState("");
@@ -28,17 +27,15 @@ export default function SignIn(props) {
   });
 
   const { loading, error, token } = propsFromState;
-  console.log("propsFromState", propsFromState);
 
   useEffect(() => {
     if (token) {
-      console.log("coming here?");
       localStorage.setItem("token", token);
       history.push("/");
     } else {
       localStorage.setItem("token", "");
     }
-  }, [token]);
+  }, [token, history]);
 
   return (
     <Container>
@@ -76,16 +73,6 @@ export default function SignIn(props) {
             <Button
               onClick={() => {
                 signIn(username, password)(dispatch);
-                /*
-              axios
-                .post("/login", { username, password })
-                .then(res => {
-                  localStorage.setItem("token", res.data.token);
-                  history.push("/");
-                })
-                .catch(err => {
-                  localStorage.setItem("token", "");
-                }); */
               }}
               color="info"
             >

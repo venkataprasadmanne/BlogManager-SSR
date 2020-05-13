@@ -1,11 +1,10 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { Jumbotron, Container, Row, Col, Button } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchArticles } from "../../Redux/actions";
+import { fetchArticles } from "../Redux/actions";
 
 function Home(props) {
   const propsFromStore = useSelector(state => {
-    console.log("redux state", state);
     return {
       data: state.articles.data,
       error: state.articles.error,
@@ -17,7 +16,7 @@ function Home(props) {
 
   useEffect(() => {
     fetchArticles()(dispatch);
-  }, []);
+  }, [dispatch]);
   const { data, loading, error } = propsFromStore;
   if (data.length > 0) {
     return (
