@@ -2,6 +2,7 @@ import {
   SIGN_UP_START,
   SIGN_UP_END,
   SIGN_UP_ERROR,
+  SIGN_UP_MOUNT,
   SIGN_UP_UNMOUNT
 } from "../actions";
 
@@ -21,6 +22,8 @@ export default (state = { data: {} }, action) => {
       return { ...state, data: {}, loading: false, error: true, token: null };
     case SIGN_UP_UNMOUNT:
       return { ...state, data: {}, loading: false, error: false, token: null };
+    case SIGN_UP_MOUNT:
+      return { ...state, data: action.data, token: action.token, mount: true };
     default:
       return state;
   }

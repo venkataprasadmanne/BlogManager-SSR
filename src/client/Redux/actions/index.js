@@ -102,6 +102,7 @@ export const SIGN_UP_START = "sign_up_start";
 export const SIGN_UP_END = "sign_up_end";
 export const SIGN_UP_ERROR = "sign_up_error";
 export const SIGN_UP_UNMOUNT = "sign_up_unmount";
+export const SIGN_UP_MOUNT = "sign_up_mount";
 export const signUp = userDetails => dispatch => {
   dispatch({ type: SIGN_UP_START });
   const {

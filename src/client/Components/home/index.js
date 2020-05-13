@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from "react";
-import { Jumbotron, Row, Col, Button } from "reactstrap";
+import { Jumbotron, Container, Row, Col, Button } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchArticles } from "../../Redux/actions";
 
@@ -21,7 +21,7 @@ function Home(props) {
   const { data, loading, error } = propsFromStore;
   if (data.length > 0) {
     return (
-      <div>
+      <Container>
         {data.map(article => {
           return (
             <Row>
@@ -52,41 +52,47 @@ function Home(props) {
             </Row>
           );
         })}
-      </div>
+      </Container>
     );
   }
   if (loading === true) {
     return (
-      <Row>
-        <Col>
-          <Jumbotron>
-            <p className="display-3">Fetching aritcles ...</p>
-          </Jumbotron>
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <p className="display-3">Fetching aritcles ...</p>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
   if (error === true) {
     return (
-      <Row>
-        <Col>
-          <Jumbotron>
-            <p className="display-3">Error fetching the articles ...</p>
-          </Jumbotron>
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <p className="display-3">Error fetching the articles ...</p>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
   return (
-    <Row>
-      <Col>
-        <Jumbotron>
-          <p className="display-3">...</p>
-        </Jumbotron>
-      </Col>
-    </Row>
+    <Container>
+      <Row>
+        <Col>
+          <Jumbotron>
+            <p className="display-3">...</p>
+          </Jumbotron>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

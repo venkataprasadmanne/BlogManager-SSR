@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Container,
+  Row,
+  Col
+} from "reactstrap";
 import RichTextEditor from "react-rte";
 import { useSelector, useDispatch } from "react-redux";
 import RTEditor from "../RTEditor";
@@ -65,36 +73,38 @@ export default function PostArticle(props) {
     });
   }
   return (
-    <Row>
-      <Col>
-        <br />
-        <Form>
-          <FormGroup>
-            <Input
-              type="text"
-              name="title"
-              id="titleInput"
-              placeholder="Please enter article title"
-              value={title}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <RTEditor value={description} onChangeRTE={onchangeRTEditor} />
-          </FormGroup>
-          <Button
-            color="info"
-            onClick={() => {
-              postArticle(articleId, {
-                title,
-                description
-              })(dispatch);
-            }}
-          >
-            {articleId ? "Save Article" : "Create Article"}
-          </Button>
-        </Form>
-      </Col>
-    </Row>
+    <Container>
+      <Row>
+        <Col>
+          <br />
+          <Form>
+            <FormGroup>
+              <Input
+                type="text"
+                name="title"
+                id="titleInput"
+                placeholder="Please enter article title"
+                value={title}
+                onChange={handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <RTEditor value={description} onChangeRTE={onchangeRTEditor} />
+            </FormGroup>
+            <Button
+              color="info"
+              onClick={() => {
+                postArticle(articleId, {
+                  title,
+                  description
+                })(dispatch);
+              }}
+            >
+              {articleId ? "Save Article" : "Create Article"}
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 }

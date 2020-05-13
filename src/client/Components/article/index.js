@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Jumbotron, Row, Col, Button } from "reactstrap";
+import { Jumbotron, Container, Row, Col, Button } from "reactstrap";
 import PropTypes from "prop-types";
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom";
@@ -39,94 +39,98 @@ export default function Article(props) {
   let html;
   if (_id) {
     html = (
-      <Row>
-        <Col>
-          <Jumbotron>
-            <p className="lead" style={{ fontWeight: "bold" }}>
-              {title}
-            </p>
-            <hr className="my-2" />
-            <p>{ReactHtmlParser(description)}</p>
-            <Link to={`/author/${author}`}>{author}</Link>
+      <Container>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <p className="lead" style={{ fontWeight: "bold" }}>
+                {title}
+              </p>
+              <hr className="my-2" />
+              <p>{ReactHtmlParser(description)}</p>
+              <Link to={`/author/${author}`}>{author}</Link>
 
-            <div>
-              {username === author ? (
+              <div>
+                {username === author ? (
+                  <Button
+                    onClick={() => {
+                      axios
+                        .delete(`/api/articles/${_id}`)
+                        .then(res => {
+                          console.log("res", res);
+                          if (res.status === 200) {
+                            history.push("/");
+                          } else {
+                            throw "something went wrong";
+                          }
+                        })
+                        .catch(err => {
+                          console.log("err", err);
+                        });
+                    }}
+                  >
+                    {" "}
+                    <MdDelete />
+                  </Button>
+                ) : null}
+                {"      "}
+                {username === author ? (
+                  <Button
+                    onClick={() => {
+                      history.push("/postarticle", {
+                        articleId: _id,
+                        title,
+                        description
+                      });
+                    }}
+                  >
+                    <FaEdit />
+{" "}
+                  </Button>
+                ) : null}
+                {"      "}
                 <Button
                   onClick={() => {
                     axios
-                      .delete(`/api/articles/${_id}`)
+                      .post(`/api/articles/${_id}`, { likes: likes + 1 })
                       .then(res => {
-                        console.log("res", res);
-                        if (res.status === 200) {
-                          history.push("/");
-                        } else {
-                          throw "something went wrong";
-                        }
+                        setLikes(likes + 1);
                       })
                       .catch(err => {
-                        console.log("err", err);
+                        console.log("error", error);
                       });
                   }}
                 >
-                  {" "}
-                  <MdDelete />
+                  {likes} <MdThumbUp />
                 </Button>
-              ) : null}
-              {"      "}
-              {username === author ? (
-                <Button
-                  onClick={() => {
-                    history.push("/postarticle", {
-                      articleId: _id,
-                      title,
-                      description
-                    });
-                  }}
-                >
-                  <FaEdit />
-{" "}
-                </Button>
-              ) : null}
-              {"      "}
-              <Button
-                onClick={() => {
-                  axios
-                    .post(`/api/articles/${_id}`, { likes: likes + 1 })
-                    .then(res => {
-                      setLikes(likes + 1);
-                    })
-                    .catch(err => {
-                      console.log("error", error);
-                    });
-                }}
-              >
-                {likes} <MdThumbUp />
-              </Button>
-            </div>
-          </Jumbotron>
-          <span>Comments:</span>
-          <Comments
-            comments={comments}
-            username={username}
-            articleId={_id}
-            commentId={commentId}
-            updateArticle={updateArticle}
-          />
-          <br />
-          <CommentInput articleId={_id} updateArticle={updateArticle} />
-          <br />
-        </Col>
-      </Row>
+              </div>
+            </Jumbotron>
+            <span>Comments:</span>
+            <Comments
+              comments={comments}
+              username={username}
+              articleId={_id}
+              commentId={commentId}
+              updateArticle={updateArticle}
+            />
+            <br />
+            <CommentInput articleId={_id} updateArticle={updateArticle} />
+            <br />
+          </Col>
+        </Row>
+      </Container>
     );
   } else {
     html = (
-      <Row>
-        <Col>
-          <Jumbotron>
-            <p className="display-3">Fetching the data ..</p>
-          </Jumbotron>
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <p className="display-3">Fetching the data ..</p>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </Container>
     );
   }
   return html;

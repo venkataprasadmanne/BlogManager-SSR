@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 // import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
 import SignOut from "./Components/signOut";
 import Article from "./Components/article";
@@ -9,6 +9,7 @@ import SignIn from "./Components/signIn";
 import SignUp from "./Components/signUp";
 import Home from "./Components/home";
 import PrivateRoute from "./Components/PrivateRoute";
+import NavBar from "./Navbar";
 
 /* const config = {
   issuer: "https://dev-137949.okta.com/oauth2/default",
@@ -17,9 +18,11 @@ import PrivateRoute from "./Components/PrivateRoute";
   pkce: true
 }; */
 
+const NavbarWithRouter = withRouter(NavBar);
 const App = () => {
   return (
-    <div>
+    <Router>
+      <NavbarWithRouter />
       <Route path="/" exact component={Home} />
       <Route path="/signin" component={SignIn} />
       <Route path="/signup" component={SignUp} />
@@ -28,7 +31,7 @@ const App = () => {
       <PrivateRoute path="/article/:articleId" component={Article} />
       <PrivateRoute path="/author/:authorId" component={Author} />
       <PrivateRoute path="/postauthor" component={SignUp} />
-    </div>
+    </Router>
   );
 };
 

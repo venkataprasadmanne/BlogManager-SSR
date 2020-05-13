@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col, Jumbotron, Button } from "reactstrap";
+import { Row, Col, Container, Jumbotron, Button } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserInfo } from "../../Redux/actions";
 
@@ -42,39 +42,43 @@ export default function Author(props) {
         setLoading(false);
         setError(true);
       }); */
-  }, []);
+  }, [dispatch, params.authorId]);
 
   if (loading) {
     return (
-      <Row>
-        <Col>
-          <Jumbotron>
-            <p className="lead" style={{ fontWeight: "bold" }}>
-              <h1>Loading ......</h1>
-            </p>
-          </Jumbotron>
-          <br />
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <p className="lead" style={{ fontWeight: "bold" }}>
+                <h1>Loading ......</h1>
+              </p>
+            </Jumbotron>
+            <br />
+          </Col>
+        </Row>
+      </Container>
     );
   }
   if (error) {
     return (
-      <Row>
-        <Col>
-          <Jumbotron>
-            <p className="lead" style={{ fontWeight: "bold" }}>
-              <h1>Error fetching author info and activity..</h1>
-            </p>
-          </Jumbotron>
-          <br />
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col>
+            <Jumbotron>
+              <p className="lead" style={{ fontWeight: "bold" }}>
+                <h1>Error fetching author info and activity..</h1>
+              </p>
+            </Jumbotron>
+            <br />
+          </Col>
+        </Row>
+      </Container>
     );
   }
   if (user && (user.firstName || user.lastName)) {
     return (
-      <div>
+      <Container>
         <Row>
           <Col>
             <Jumbotron>
@@ -114,20 +118,22 @@ export default function Author(props) {
             </Row>
           );
         })}
-      </div>
+      </Container>
     );
   }
 
   return (
-    <Row>
-      <Col>
-        <Jumbotron>
-          <p className="lead" style={{ fontWeight: "bold" }}>
-            <h1>......</h1>
-          </p>
-        </Jumbotron>
-        <br />
-      </Col>
-    </Row>
+    <Container>
+      <Row>
+        <Col>
+          <Jumbotron>
+            <p className="lead" style={{ fontWeight: "bold" }}>
+              <h1>......</h1>
+            </p>
+          </Jumbotron>
+          <br />
+        </Col>
+      </Row>
+    </Container>
   );
 }
