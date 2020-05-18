@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { SIGN_IN_UNMOUNT, signIn } from "../Redux/actions";
 
-export default function SignIn(props) {
+function SignIn(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { history } = props;
@@ -87,3 +87,5 @@ export default function SignIn(props) {
     </Container>
   );
 }
+
+export default { component: SignIn };

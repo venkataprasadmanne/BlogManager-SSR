@@ -9,7 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import Comments from "./comments";
 import CommentInput from "./commentInput";
 
-export default function Article(props) {
+function Article(props) {
   let [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
   let [likes, setLikes] = useState(0);
@@ -38,6 +38,8 @@ export default function Article(props) {
   comments = comments.length <= 0 ? props.location.state.comments : comments;
   let html;
   if (_id) {
+    console.log("article username", username);
+    console.log("article author", author);
     html = (
       <Container>
         <Row>
@@ -139,3 +141,5 @@ export default function Article(props) {
 Article.propTypes = {
   location: PropTypes.instanceOf(Object).isRequired
 };
+
+export default { component: Article };

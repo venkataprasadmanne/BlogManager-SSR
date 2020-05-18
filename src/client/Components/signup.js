@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import RTEditor from "./RTEditor";
 import { signUp, SIGN_UP_MOUNT, SIGN_UP_UNMOUNT } from "../Redux/actions";
 
-export default function SignUp(props) {
+function SignUp(props) {
   const [id, setId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -42,7 +42,6 @@ export default function SignUp(props) {
       mount: state.user.mount
     };
   });
-
 
   useEffect(() => {
     axios
@@ -189,3 +188,5 @@ export default function SignUp(props) {
     </Container>
   );
 }
+
+export default { component: SignUp };

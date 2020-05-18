@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import RTEditor from "./RTEditor";
 import { postArticle, POST_ARTICLE_UNMOUNT } from "../Redux/actions";
 
-export default function PostArticle(props) {
+function PostArticle(props) {
   const [title, setTitle] = useState(
     props.location.state && props.location.state.title
       ? props.location.state.title
@@ -63,13 +63,15 @@ export default function PostArticle(props) {
       _id,
       title: articleTitle,
       description: articleDescription,
-      comments
+      comments,
+      author
     } = article;
     push(`/article/${_id}`, {
       _id,
       title: articleTitle,
       description: articleDescription,
-      comments
+      comments,
+      author
     });
   }
   return (
@@ -108,3 +110,5 @@ export default function PostArticle(props) {
     </Container>
   );
 }
+
+export default { component: PostArticle };

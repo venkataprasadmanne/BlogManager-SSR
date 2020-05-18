@@ -1,15 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 // import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
-import SignOut from "./Components/signOut";
-import Article from "./Components/article";
-import Author from "./Components/author";
-import PostArticle from "./Components/postarticle";
-import SignIn from "./Components/signin";
-import SignUp from "./Components/signup";
-import Home from "./Components/home";
 import PrivateRoute from "./Components/PrivateRoute";
 import NavBar from "./Navbar";
+import routes from "./routes";
 
 /* const config = {
   issuer: "https://dev-137949.okta.com/oauth2/default",
@@ -19,20 +13,18 @@ import NavBar from "./Navbar";
 }; */
 
 const NavbarWithRouter = withRouter(NavBar);
+
 const App = () => {
   return (
     <Router>
       <NavbarWithRouter />
-      <Route path="/" exact component={Home} />
-      <Route path="/signin" component={SignIn} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/signout" component={SignOut} />
-      <PrivateRoute path="/postarticle" component={PostArticle} />
-      <PrivateRoute path="/article/:articleId" component={Article} />
-      <PrivateRoute path="/author/:authorId" component={Author} />
-      <PrivateRoute path="/postauthor" component={SignUp} />
+      {routes.map(route => {
+        if (route.private) {
+          return <PrivateRoute {...route} />;
+        }
+        return <Route {...route} />;
+      })}
     </Router>
   );
 };
-
 export default App;

@@ -95,4 +95,8 @@ function Home(props) {
   );
 }
 
-export default Home;
+const loadData = (store, match) => {
+  return store.dispatch(fetchArticles());
+};
+
+export default { component: Home, loadData };

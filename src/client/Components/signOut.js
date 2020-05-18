@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Alert } from "reactstrap";
 
-export default function SignOut(props) {
+function SignOut(props) {
   const { history } = props;
   localStorage.setItem("token", null);
   history.push("/");
@@ -15,3 +15,5 @@ export default function SignOut(props) {
     </Row>
   );
 }
+
+export default { component: SignOut };

@@ -3,7 +3,7 @@ import { Row, Col, Container, Jumbotron, Button } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserInfo } from "../Redux/actions";
 
-export default function Author(props) {
+function Author(props) {
   const dispatch = useDispatch();
   const propsFromStore = useSelector(state => {
     return {
@@ -115,3 +115,9 @@ export default function Author(props) {
     </Container>
   );
 }
+
+const loadData = (store, match) => {
+  return store.dispatch(fetchUserInfo(match.params.authorId));
+};
+
+export default { component: Author, loadData };
